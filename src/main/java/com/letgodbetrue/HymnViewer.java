@@ -2,11 +2,11 @@ package com.letgodbetrue;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -47,14 +47,7 @@ public class HymnViewer {
 		JButton cutButton = new JButton("Cut");
 		cutButton.setEnabled(false);
 		JButton backButton = new JButton("Back");
-		backButton.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				System.out.println("Go back.");
-			}
-		});
 		JButton nextButton = new JButton("Next");
 		JButton quarterButton = new JButton("1");
 		JButton halfButton = new JButton("2");
@@ -84,6 +77,28 @@ public class HymnViewer {
 		parentFrame.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		panel.setBackground(Color.BLUE);
+		int y = -200;
+		for (int i = 0; i < 3; i++) {
+			JLabel carouselLabel = new JLabel(String.valueOf(i));
+			carouselLabel.setBounds(0, y, 2000, 400);
+			carouselLabel.setForeground(Color.white);
+			carouselLabel.setIcon(createImageIcon("be right back.jpg"));
+			// activeLabel.setPreferredSize(new Dimension(700, 200));
+			centerPanel.add(carouselLabel);
+			y+=400;
+		}		
+		backButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for(Component component:centerPanel.getComponents()) {
+					component.setBounds(component.getX(),component.getY()==-400? 800: component.getY()-50, component.getWidth(), component.getHeight());
+				}
+
+				System.out.println("Go back.");
+			}
+		}); 
+
 		JLabel activeLabel = new JLabel("2");
 		activeLabel.setBounds(0, -200, 2000, 400);
 		activeLabel.setForeground(Color.white);
