@@ -29,7 +29,7 @@ public class HymnViewer {
 		JPanel panel = new JPanel();
 		parentFrame.add(panel, BorderLayout.NORTH);
 		panel.setBounds(0, 0, 300, 100);
-		panel.setBackground(Color.red);
+		panel.setBackground(Color.GRAY);
 		JLabel hymnCodeLabel = new JLabel("Hymn Code");
 		JTextField hymnCode = new JTextField(10);
 		JButton sbmt = new JButton("Submit");
@@ -58,7 +58,7 @@ public class HymnViewer {
 			JLabel carouselLabel = new JLabel(String.valueOf(i));
 			carouselLabel.setBounds(0, y, 1000, 400);
 			carouselLabel.setForeground(Color.white);
-			carouselLabel.setIcon(createImageIcon("sample-0.png", carouselLabel));
+			carouselLabel.setIcon(createImageIcon("sample-"+ i + ".png", carouselLabel));
 			centerPanel.add(carouselLabel);
 			y+=400;
 		}		
@@ -93,7 +93,7 @@ public class HymnViewer {
 	private JPanel createBottomPanel(JFrame parentFrame) {
 		JPanel panel = new JPanel();
 		parentFrame.add(panel, BorderLayout.SOUTH);
-		panel.setBackground(Color.PINK);
+		panel.setBackground(Color.DARK_GRAY);
 		panel.setBounds(0, 0, 200, 200);
 		return panel;
 	}	
@@ -102,20 +102,7 @@ public class HymnViewer {
 		JPanel panel = new JPanel();
 		parentFrame.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
-		panel.setBackground(Color.BLUE);
-		JLabel activeLabel = new JLabel("2");
-		activeLabel.setBounds(0, -200, 1000, 400);
-		activeLabel.setForeground(Color.white);
-		activeLabel.setIcon(createImageIcon("sample-0.png", activeLabel));
-		activeLabel.setBorder(BorderFactory.createLineBorder(Color.orange));
-		activeLabel.setPreferredSize(new Dimension(700, 200));
-		JLabel stagedLabel = new JLabel("3");
-		stagedLabel.setIcon(createImageIcon("sample-0.png", activeLabel));
-		stagedLabel.setForeground(Color.white);
-		stagedLabel.setBounds(0, 400, 2000, 400);
-		stagedLabel.setBorder(BorderFactory.createLineBorder(Color.orange));
-		panel.add(activeLabel);
-		panel.add(stagedLabel);
+		panel.setBackground(Color.WHITE);
 		return panel;
 	}	
 
@@ -126,7 +113,8 @@ public class HymnViewer {
 		createBottomPanel(frame);
 		createRightPanel(frame, createCenterPanel(frame));
 		createLeftPanel(frame);
-		frame.setSize(300, 300);
+		frame.setSize(1250, 800);
+		frame.setLocation(100, 100);
 		frame.setVisible(true);		
 	}
 
