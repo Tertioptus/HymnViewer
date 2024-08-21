@@ -4,9 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -39,7 +45,7 @@ public class HymnViewer {
 		return panel;
 	}	
 
-	private JPanel createRightPanel(JFrame parentFrame) {
+	private JPanel createRightPanel(JFrame parentFrame, JPanel centerPanel) {
 		JPanel panel = new JPanel();
 		parentFrame.add(panel, BorderLayout.EAST);
 		panel.setPreferredSize(new Dimension(100, 500));
@@ -47,6 +53,26 @@ public class HymnViewer {
 		JButton cutButton = new JButton("Cut");
 		cutButton.setEnabled(false);
 		JButton backButton = new JButton("Back");
+		int y = -200;
+		for (int i = 0; i < 3; i++) {
+			JLabel carouselLabel = new JLabel(String.valueOf(i));
+			carouselLabel.setBounds(0, y, 1000, 400);
+			carouselLabel.setForeground(Color.white);
+			carouselLabel.setIcon(createImageIcon("sample-0.png", carouselLabel));
+			centerPanel.add(carouselLabel);
+			y+=400;
+		}		
+		backButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for(Component component:centerPanel.getComponents()) {
+					component.setBounds(component.getX(),component.getY()==-400? 800: component.getY()-50, component.getWidth(), component.getHeight());
+				}
+
+				System.out.println("Go back.");
+			}
+		}); 
 
 		JButton nextButton = new JButton("Next");
 		JButton quarterButton = new JButton("1");
@@ -77,35 +103,14 @@ public class HymnViewer {
 		parentFrame.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		panel.setBackground(Color.BLUE);
-		int y = -200;
-		for (int i = 0; i < 3; i++) {
-			JLabel carouselLabel = new JLabel(String.valueOf(i));
-			carouselLabel.setBounds(0, y, 2000, 400);
-			carouselLabel.setForeground(Color.white);
-			carouselLabel.setIcon(createImageIcon("be right back.jpg"));
-			// activeLabel.setPreferredSize(new Dimension(700, 200));
-			centerPanel.add(carouselLabel);
-			y+=400;
-		}		
-		backButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				for(Component component:centerPanel.getComponents()) {
-					component.setBounds(component.getX(),component.getY()==-400? 800: component.getY()-50, component.getWidth(), component.getHeight());
-				}
-
-				System.out.println("Go back.");
-			}
-		}); 
-
 		JLabel activeLabel = new JLabel("2");
-		activeLabel.setBounds(0, -200, 2000, 400);
+		activeLabel.setBounds(0, -200, 1000, 400);
 		activeLabel.setForeground(Color.white);
-		activeLabel.setIcon(createImageIcon("be right back.jpg"));
+		activeLabel.setIcon(createImageIcon("sample-0.png", activeLabel));
 		activeLabel.setBorder(BorderFactory.createLineBorder(Color.orange));
+		activeLabel.setPreferredSize(new Dimension(700, 200));
 		JLabel stagedLabel = new JLabel("3");
-		stagedLabel.setIcon(createImageIcon("be right back.jpg"));
+		stagedLabel.setIcon(createImageIcon("sample-0.png", activeLabel));
 		stagedLabel.setForeground(Color.white);
 		stagedLabel.setBounds(0, 400, 2000, 400);
 		stagedLabel.setBorder(BorderFactory.createLineBorder(Color.orange));
@@ -119,22 +124,23 @@ public class HymnViewer {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		createTopPanel(frame);
 		createBottomPanel(frame);
-		createRightPanel(frame);
-		createCenterPanel(frame);
+		createRightPanel(frame, createCenterPanel(frame));
 		createLeftPanel(frame);
 		frame.setSize(300, 300);
 		frame.setVisible(true);		
 	}
 
 	/** Returns an ImageIcon, or null if the path was invalid. */
-	protected static ImageIcon createImageIcon(String path) {
+	protected static ImageIcon createImageIcon(String path, JLabel label) {
 		java.net.URL imgURL = HymnViewer.class.getResource(path);
-		if (imgURL != null) {
-		    return new ImageIcon(imgURL);
-		} else {
+		try {
+			BufferedImage image = ImageIO.read(new File(imgURL.getPath()));
+		    return new ImageIcon(image.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH));
+		} catch (IOException e) {
+			e.printStackTrace();
 		    System.err.println("Couldn't find file: " + path);
-		    return null;
 		}
+		return null;
 	}
 
 	public static void main(String[] args) {
