@@ -40,8 +40,9 @@ public class DefaultDirector implements Director {
 				public void run() {
 					long elapsedTime = System.currentTimeMillis() - startTime;
 					int position = Math.round(elapsedTime * speed) + start;
-					mover.moveTo(position);
-					if (mover.tellPosition() >= goal) {
+					if (position < goal) {
+						mover.moveTo(position);
+					} else {
 						timer.cancel();
 						mover.moveTo(goal);
 					}
