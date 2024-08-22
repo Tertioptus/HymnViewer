@@ -12,13 +12,15 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import com.letgodbetrue.director.DefaultDirector;
+import com.letgodbetrue.director.Director;
 
 /**
 	Encapsulated GUI that is launched from calling the "start" method.
@@ -53,10 +55,14 @@ public class HymnViewer {
 		JButton cutButton = new JButton("Cut");
 		cutButton.setEnabled(false);
 		JButton backButton = new JButton("Back");
-		int y = -200;
-		for (int i = 0; i < 3; i++) {
+		JButton nextButton = new JButton("Next");
+		int y = 0;
+		final int height = 400;
+		int imageCount =  6;
+		int bottomOfView = (imageCount - 1) * height;
+		for (int i = 0; i < imageCount; i++) {
 			JLabel carouselLabel = new JLabel(String.valueOf(i));
-			carouselLabel.setBounds(0, y, 1000, 400);
+			carouselLabel.setBounds(0, y, 1000, height);
 			carouselLabel.setForeground(Color.white);
 			carouselLabel.setIcon(createImageIcon("sample-"+ i + ".png", carouselLabel));
 			centerPanel.add(carouselLabel);
@@ -67,18 +73,67 @@ public class HymnViewer {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				for(Component component:centerPanel.getComponents()) {
-					component.setBounds(component.getX(),component.getY()==-400? 800: component.getY()-50, component.getWidth(), component.getHeight());
+					component.setBounds(component.getX(),component.getY()>=bottomOfView? 0: component.getY()+height, component.getWidth(), component.getHeight());
 				}
 
 				System.out.println("Go back.");
 			}
 		}); 
+		
+		
+		Director director = new DefaultDirector(0L, 1L);
+		nextButton.addActionListener(new ActionListener() {
 
-		JButton nextButton = new JButton("Next");
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for(Component component:centerPanel.getComponents()) {
+					component.setBounds(component.getX(),component.getY()<=-height? bottomOfView: component.getY()-height, component.getWidth(), component.getHeight());
+				}
+			}
+		}); 
+
 		JButton quarterButton = new JButton("1");
+		quarterButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for(Component component:centerPanel.getComponents()) {
+					director.start(new ComponentMover(component, bottomOfView), component.getY(), component.getY() - height, 250);
+				}
+			}
+		}); 
+	
 		JButton halfButton = new JButton("2");
-		JButton threeQuartersButton = new JButton("3");
+		halfButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for(Component component:centerPanel.getComponents()) {
+					director.start(new ComponentMover(component, bottomOfView), component.getY(), component.getY() - height, 500);
+				}
+			}
+		}); 
+	JButton threeQuartersButton = new JButton("3");
+
+	threeQuartersButton.addActionListener(new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			for(Component component:centerPanel.getComponents()) {
+				director.start(new ComponentMover(component, bottomOfView), component.getY(), component.getY() - height, 750);
+			}
+		}
+	}); 
 		JButton wholeButton = new JButton("4");
+		wholeButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for(Component component:centerPanel.getComponents()) {
+					director.start(new ComponentMover(component, bottomOfView), component.getY(), component.getY() - height, 1000);
+				}
+			}
+		}); 
 		panel.add(stageButton);
 		panel.add(cutButton);
 		panel.add(backButton);
@@ -113,16 +168,17 @@ public class HymnViewer {
 		createBottomPanel(frame);
 		createRightPanel(frame, createCenterPanel(frame));
 		createLeftPanel(frame);
-		frame.setSize(1250, 800);
+		frame.setSize(1250, 900);
 		frame.setLocation(100, 100);
 		frame.setVisible(true);		
+		frame.setTitle("Hymn Viewer");
 	}
 
 	/** Returns an ImageIcon, or null if the path was invalid. */
 	protected static ImageIcon createImageIcon(String path, JLabel label) {
-		java.net.URL imgURL = HymnViewer.class.getResource(path);
+		//java.net.URL imgURL = HymnViewer.class.getResource(path);
 		try {
-			BufferedImage image = ImageIO.read(new File(imgURL.getPath()));
+			BufferedImage image = ImageIO.read(new File("c:\\temp\\" + path));//imgURL.getPath()));
 		    return new ImageIcon(image.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH));
 		} catch (IOException e) {
 			e.printStackTrace();

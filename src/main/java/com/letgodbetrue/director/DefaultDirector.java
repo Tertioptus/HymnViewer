@@ -30,17 +30,22 @@ public class DefaultDirector implements Director {
 
 	@Override
 	public void start(Mover mover, int start, int goal, int duration) {
+		start(mover, start, goal, duration, 1);
+	}
+
+	@Override
+	public void start(Mover mover, int start, int goal, int duration, int acceleration) {
 		if (duration > 0) {
 			float displacement = goal - start;
-			final float speed = displacement / duration;
+			final double speed = displacement / Math.pow((float)duration, acceleration);
 			final long startTime = System.currentTimeMillis();
 			// TODO clean up by passing a function into a function
 			final Timer timer = new Timer("Timer");
 			TimerTask task = new TimerTask() {
 				public void run() {
 					long elapsedTime = System.currentTimeMillis() - startTime;
-					int position = Math.round(elapsedTime * speed) + start;
-					if (position < goal) {
+					int position = (int)(Math.round(Math.pow(elapsedTime, acceleration) * speed) + start);
+					if (position > goal) {
 						mover.moveTo(position);
 					} else {
 						timer.cancel();
@@ -51,7 +56,7 @@ public class DefaultDirector implements Director {
 			timer.schedule(task, this.delay, this.period);
 		} else {
 			mover.moveTo(goal);
-		}
+		}		
 	}
 
 }
