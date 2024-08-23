@@ -26,26 +26,6 @@ import com.letgodbetrue.director.Director;
 	Encapsulated GUI that is launched from calling the "start" method.
 **/
 public class HymnViewer {
-	
-	private JPanel createTopPanel(JFrame parentFrame) {
-		JPanel panel = new JPanel();
-		parentFrame.add(panel, BorderLayout.NORTH);
-		panel.setBounds(0, 0, 300, 100);
-		panel.setBackground(Color.GRAY);
-		JLabel hymnCodeLabel = new JLabel("Hymn Code");
-		JTextField hymnCode = new JTextField(10);
-		JButton sbmt = new JButton("Submit");
-		panel.add(hymnCodeLabel);
-		panel.add(hymnCode);
-		panel.add(sbmt);
-		return panel;
-	}	
-
-	private JPanel createLeftPanel(JFrame parentFrame) {
-		JPanel panel = new JPanel();
-		parentFrame.add(panel, BorderLayout.WEST);
-		return panel;
-	}	
 
 	private JPanel createRightPanel(JFrame parentFrame, JPanel centerPanel) {
 		JPanel panel = new JPanel();
@@ -130,7 +110,7 @@ public class HymnViewer {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				for(Component component:centerPanel.getComponents()) {
-					director.start(new ComponentMover(component, bottomOfView), component.getY(), component.getY() - height, 1000);
+					director.start(new ComponentMover(component, bottomOfView), component.getY(), component.getY() - height, 1000,2);
 				}
 			}
 		}); 
@@ -145,14 +125,6 @@ public class HymnViewer {
 		return panel;
 	}	
 
-	private JPanel createBottomPanel(JFrame parentFrame) {
-		JPanel panel = new JPanel();
-		parentFrame.add(panel, BorderLayout.SOUTH);
-		panel.setBackground(Color.DARK_GRAY);
-		panel.setBounds(0, 0, 200, 200);
-		return panel;
-	}	
-
 	private JPanel createCenterPanel(JFrame parentFrame) {
 		JPanel panel = new JPanel();
 		parentFrame.add(panel, BorderLayout.CENTER);
@@ -164,10 +136,9 @@ public class HymnViewer {
 	public void start() {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		createTopPanel(frame);
-		createBottomPanel(frame);
+		frame.add(new LoadPanelArchitect(Color.GRAY, 0, 0, 300, 100).provideJPanel(), BorderLayout.NORTH);
+		frame.add(new InfoPanelArchitect(Color.DARK_GRAY, 0, 0, 200, 200).provideJPanel(), BorderLayout.SOUTH);
 		createRightPanel(frame, createCenterPanel(frame));
-		createLeftPanel(frame);
 		frame.setSize(1250, 900);
 		frame.setLocation(100, 100);
 		frame.setVisible(true);		
