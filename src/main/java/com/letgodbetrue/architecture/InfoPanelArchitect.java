@@ -1,4 +1,4 @@
-package com.letgodbetrue;
+package com.letgodbetrue.architecture;
 
 import java.awt.Color;
 

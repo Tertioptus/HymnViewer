@@ -1,10 +1,10 @@
-package com.letgodbetrue.director;
+package com.letgodbetrue.choreography.direction;
 
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.function.Consumer;
 
-import com.letgodbetrue.Mover;
+import com.letgodbetrue.choreography.movement.Mover;
 
 public class DefaultDirector implements Director {
 	private long delay;

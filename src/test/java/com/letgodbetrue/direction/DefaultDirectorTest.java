@@ -1,9 +1,10 @@
-package com.letgodbetrue.director;
+package com.letgodbetrue.direction;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.letgodbetrue.Mover;
+import com.letgodbetrue.choreography.direction.DefaultDirector;
+import com.letgodbetrue.choreography.movement.Mover;
 
 
 public class DefaultDirectorTest {

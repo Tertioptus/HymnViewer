@@ -1,6 +1,6 @@
-package com.letgodbetrue.director;
+package com.letgodbetrue.choreography.direction;
 
-import com.letgodbetrue.Mover;
+import com.letgodbetrue.choreography.movement.Mover;
 
 public interface Director {
 	

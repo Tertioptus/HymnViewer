@@ -1,4 +1,4 @@
-package com.letgodbetrue;
+package com.letgodbetrue.choreography.movement;
 
 public interface Mover {
 	

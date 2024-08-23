@@ -19,8 +19,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.letgodbetrue.director.DefaultDirector;
-import com.letgodbetrue.director.Director;
+import com.letgodbetrue.architecture.InfoPanelArchitect;
+import com.letgodbetrue.architecture.LoadPanelArchitect;
+import com.letgodbetrue.choreography.direction.DefaultDirector;
+import com.letgodbetrue.choreography.direction.Director;
+import com.letgodbetrue.choreography.movement.ComponentMover;
 
 /**
 	Encapsulated GUI that is launched from calling the "start" method.
@@ -147,9 +150,8 @@ public class HymnViewer {
 
 	/** Returns an ImageIcon, or null if the path was invalid. */
 	protected static ImageIcon createImageIcon(String path, JLabel label) {
-		//java.net.URL imgURL = HymnViewer.class.getResource(path);
 		try {
-			BufferedImage image = ImageIO.read(new File("c:\\temp\\" + path));//imgURL.getPath()));
+			BufferedImage image = ImageIO.read(new File("c:\\temp\\" + path));
 		    return new ImageIcon(image.getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_SMOOTH));
 		} catch (IOException e) {
 			e.printStackTrace();
