@@ -36,20 +36,16 @@ public class DefaultDirector implements Director {
 			final float displacement = goal - start;
 			final double speed = displacement / Math.pow((float) duration, acceleration);
 			final long startTime = System.currentTimeMillis();
-			final Timer timer = new Timer("Timer");
-			TimerTask task = new TimerTask() {
-				public void run() {
-					long elapsedTime = System.currentTimeMillis() - startTime;
-					int position = (int) (Math.round(Math.pow(elapsedTime, acceleration) * speed) + start);
-					if (position > goal) {
-						mover.moveTo(position);
-					} else {
-						timer.cancel();
-						mover.moveTo(goal);
-					}
+			advance((timer) -> {
+				long elapsedTime = System.currentTimeMillis() - startTime;
+				int position = (int) (Math.round(Math.pow(elapsedTime, acceleration) * speed) + start);
+				if (position > goal) {
+					mover.moveTo(position);
+				} else {
+					timer.cancel();
+					mover.moveTo(goal);
 				}
-			};
-			timer.schedule(task, this.delay, this.period);
+			});
 		} else {
 			mover.moveTo(goal);
 		}
