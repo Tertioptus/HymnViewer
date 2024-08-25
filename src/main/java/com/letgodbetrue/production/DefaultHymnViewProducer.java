@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import com.letgodbetrue.architecture.ControlPanelArchitect;
@@ -44,6 +45,7 @@ public final class DefaultHymnViewProducer implements HymnViewProducer {
 		frame.setLocation(100, 100);
 		frame.setVisible(true);		
 		frame.setTitle("Hymn Viewer");
+		frame.setIconImage(new ImageIcon(getClass().getResource("hymnal-icon.png")).getImage());
 	}
 
 	@Override
