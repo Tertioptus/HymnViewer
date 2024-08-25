@@ -39,7 +39,7 @@ public final class DefaultHymnViewProducer implements HymnViewProducer {
 		frame.add(new LoadPanelArchitect(this, Color.GRAY, 0, 0, 300, 100).provideJPanel(), BorderLayout.NORTH);
 		frame.add(new InfoPanelArchitect(Color.DARK_GRAY, 0, 0, 200, 200).provideJPanel(), BorderLayout.SOUTH);
 		frame.add((viewPanelArchitect = new ViewPanelArchitect(Color.WHITE, 0, 0, 0, 0)).provideJPanel(), BorderLayout.CENTER);
-		frame.add((controlPanelArchitect = new ControlPanelArchitect(this, Color.GRAY, 0, 0, 0, 0)).provideJPanel(), BorderLayout.EAST);
+		frame.add((controlPanelArchitect = new ControlPanelArchitect(this, mapEngineer, Color.GRAY, 0, 0, 0, 0)).provideJPanel(), BorderLayout.EAST);
 		frame.setSize(1250, 900);
 		frame.setLocation(100, 100);
 		frame.setVisible(true);		
